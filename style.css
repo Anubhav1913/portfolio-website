@@ -1,3 +1,22 @@
+
+.project-card-visual {
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.4s ease-out;
+}
+
+.project-card-visual:hover {
+    transform: scale(1.03);
+}
+
+.project-card-visual .absolute {
+    transition: background-color 0.3s ease;
+}
+
+.project-card-visual:hover .absolute {
+    background-color: rgba(0, 0, 0, 0.2); /* Slightly lighten overlay on hover */
+}
+
 :root {
     --bg-color: #f8fafc; /* slate-50 */
     --text-primary: #0f172a; /* slate-900 */
@@ -52,13 +71,6 @@ body {
 }
 .nav-link:hover::after, .nav-link.active::after {
     width: 100%;
-}
-.project-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.project-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 .filter-btn {
     transition: all 0.3s ease;
