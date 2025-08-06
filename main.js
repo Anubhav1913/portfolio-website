@@ -158,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // --- Load Header and Footer ---
     const loadComponents = () => {
         const headerPlaceholder = document.getElementById('header-placeholder');
         const footerPlaceholder = document.getElementById('footer-placeholder');
@@ -208,18 +207,18 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     const setActiveNav = () => {
-        const navLinks = document.querySelectorAll('.nav-link');
-        const currentPath = window.location.pathname.split('/').pop();
+        const navLinks = document.querySelectorAll('nav .nav-link, #mobile-menu a');
+        let currentPath = window.location.pathname.split('/').pop();
+        if (currentPath === '') currentPath = 'index.html';
         
         navLinks.forEach(link => {
             const linkPath = link.getAttribute('href').split('/').pop();
-            if (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html')) {
+            if (linkPath === currentPath) {
                 link.classList.add('active');
             }
         });
     };
 
-    // --- Page Specific Logic ---
     const initAboutPage = () => {
         const skillsContainer = document.getElementById('skills-container');
         if (!skillsContainer) return;
@@ -342,13 +341,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         const closeModal = () => {
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modal.classList.remove('modal-active');
-            document.body.style.overflow = '';
+            if(modal) {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modal.classList.remove('modal-active');
+                document.body.style.overflow = '';
+            }
         };
 
-        modalCloseBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
+        if(modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+        if(modal) modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
     };
@@ -402,11 +403,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // --- Initialize Page ---
+    // --- Main Initialization Logic ---
     loadComponents();
     setupMobileMenu();
     setActiveNav();
-    initAboutPage();
-    initPortfolioPage();
-    initContactPage();
+
+    const path = window.location.pathname;
+    const currentPage = path.substring(path.lastIndexOf('/') + 1);
+
+    if (currentPage === 'about.html') {
+        initAboutPage();
+    } else if (currentPage === 'portfolio.html') {
+        initPortfolioPage();
+    } else if (currentPage === 'contact.html') {
+        initContactPage();
+    }
+    // No specific init needed for index.html or root path
 });
+```
+
+After you update `main.js`, commit the change to GitHub, and Vercel will automatically redeploy your site. The project details feature should now work as expected on the portfolio pa
