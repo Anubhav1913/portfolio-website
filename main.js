@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     const projects = [
+        // ... (project data remains the same)
         {
             id: 1,
             title: "Real-Time Multimodal Depression Detection",
@@ -120,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     const callGeminiAPI = async (prompt) => {
+        // ... (API call function remains the same)
         const apiKey = ""; 
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
         
@@ -163,8 +165,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const footerPlaceholder = document.getElementById('footer-placeholder');
 
         if (headerPlaceholder) {
+            // --- FIX STARTS HERE ---
             headerPlaceholder.innerHTML = `
-                <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="container mx-auto px-6 py-4 flex justify-between items-center relative">
                     <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900">Anubhav Bhattacharya</a>
                     <nav class="hidden md:flex items-center space-x-8">
                         <a href="index.html" class="nav-link text-slate-700 hover:text-blue-600 font-medium">Home</a>
@@ -175,14 +178,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button id="mobile-menu-btn" class="md:hidden text-slate-700">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     </button>
-                </div>
-                <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
-                    <a href="index.html" class="block py-3 px-6 text-slate-700 hover:bg-slate-50">Home</a>
-                    <a href="about.html" class="block py-3 px-6 text-slate-700 hover:bg-slate-50">About</a>
-                    <a href="portfolio.html" class="block py-3 px-6 text-slate-700 hover:bg-slate-50">Portfolio</a>
-                    <a href="contact.html" class="block py-3 px-6 text-slate-700 hover:bg-slate-50">Contact</a>
+                    <div id="mobile-menu" class="absolute top-full left-0 w-full hidden md:hidden bg-white shadow-lg border-t border-slate-200">
+                        <a href="index.html" class="block py-3 px-6 text-slate-700 hover:bg-slate-50">Home</a>
+                        <a href="about.html" class="block py-3 px-6 text-slate-700 hover:bg-slate-50">About</a>
+                        <a href="portfolio.html" class="block py-3 px-6 text-slate-700 hover:bg-slate-50">Portfolio</a>
+                        <a href="contact.html" class="block py-3 px-6 text-slate-700 hover:bg-slate-50">Contact</a>
+                    </div>
                 </div>
             `;
+            // --- FIX ENDS HERE ---
         }
 
         if (footerPlaceholder) {
@@ -196,14 +200,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    // ... (The rest of the main.js file remains the same)
     const setupMobileMenu = () => {
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.addEventListener('click', (event) => {
+                event.stopPropagation();
                 mobileMenu.classList.toggle('hidden');
             });
         }
+        // Close menu if clicking outside
+        document.addEventListener('click', (event) => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden') && !mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
     };
 
     const setActiveNav = () => {
@@ -309,13 +323,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     modalBody.innerHTML = bodyHtml;
                     
-                    // --- FIX STARTS HERE ---
                     modal.classList.remove('opacity-0', 'pointer-events-none');
                     modal.classList.add('modal-active');
                     if (modalContent) {
                         modalContent.classList.remove('opacity-0');
                     }
-                    // --- FIX ENDS HERE ---
                     
                     document.body.style.overflow = 'hidden';
                 }
@@ -350,13 +362,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const closeModal = () => {
             if(modal) {
-                // --- FIX STARTS HERE ---
                 modal.classList.add('opacity-0', 'pointer-events-none');
                 modal.classList.remove('modal-active');
                 if (modalContent) {
                     modalContent.classList.add('opacity-0');
                 }
-                // --- FIX ENDS HERE ---
                 document.body.style.overflow = '';
             }
         };
@@ -426,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (currentPage === 'about.html') {
         initAboutPage();
-    } else if (currentPage === 'portfolio.html' || currentPage === '') {
+    } else if (currentPage === 'portfolio.html' || currentPage === '' || currentPage === 'index.html') {
         initPortfolioPage();
     } else if (currentPage === 'contact.html') {
         initContactPage();
