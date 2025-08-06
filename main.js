@@ -271,6 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
         const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalContent = modal.querySelector('.modal-content');
 
         portfolioGrid.addEventListener('click', (e) => {
             const card = e.target.closest('.project-card');
@@ -307,8 +308,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     `;
                     modalBody.innerHTML = bodyHtml;
+                    
+                    // --- FIX STARTS HERE ---
                     modal.classList.remove('opacity-0', 'pointer-events-none');
                     modal.classList.add('modal-active');
+                    if (modalContent) {
+                        modalContent.classList.remove('opacity-0');
+                    }
+                    // --- FIX ENDS HERE ---
+                    
                     document.body.style.overflow = 'hidden';
                 }
             }
@@ -342,8 +350,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const closeModal = () => {
             if(modal) {
+                // --- FIX STARTS HERE ---
                 modal.classList.add('opacity-0', 'pointer-events-none');
                 modal.classList.remove('modal-active');
+                if (modalContent) {
+                    modalContent.classList.add('opacity-0');
+                }
+                // --- FIX ENDS HERE ---
                 document.body.style.overflow = '';
             }
         };
@@ -413,13 +426,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (currentPage === 'about.html') {
         initAboutPage();
-    } else if (currentPage === 'portfolio.html') {
+    } else if (currentPage === 'portfolio.html' || currentPage === '') {
         initPortfolioPage();
     } else if (currentPage === 'contact.html') {
         initContactPage();
     }
-    // No specific init needed for index.html or root path
 });
-```
-
-After you update `main.js`, commit the change to GitHub, and Vercel will automatically redeploy your site. The project details feature should now work as expected on the portfolio pa
