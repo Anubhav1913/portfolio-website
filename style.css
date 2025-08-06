@@ -1,0 +1,85 @@
+:root {
+    --bg-color: #f8fafc; /* slate-50 */
+    --text-primary: #0f172a; /* slate-900 */
+    --text-secondary: #475569; /* slate-600 */
+    --accent-color: #2563eb; /* blue-600 */
+    --border-color: #e2e8f0; /* slate-200 */
+    --card-bg: #ffffff;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+.accent-gradient-text {
+    background: linear-gradient(90deg, var(--accent-color), #3b82f6, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    animation: gradient-flow 5s ease-in-out infinite;
+    background-size: 200% 200%;
+}
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.modal-backdrop {
+    transition: opacity 0.3s ease-in-out;
+}
+.modal-content {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: scale(0.95);
+}
+.modal-active .modal-content {
+    transform: scale(1);
+}
+.nav-link {
+    position: relative;
+    transition: color 0.3s;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-color);
+    transition: width 0.3s;
+}
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+}
+.project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+.filter-btn {
+    transition: all 0.3s ease;
+}
+.filter-btn.active {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+.spinner {
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.ai-assistant-btn .spinner {
+     border-top: 2px solid var(--accent-color);
+}
